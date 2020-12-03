@@ -1,5 +1,7 @@
 import {
   GET_PROFILE, 
+  GET_PROFILES, 
+  GET_REPOS, 
   PROFILE_ERROR,
   CLEAR_PROFILE,
   UPDATE_PROFILE
@@ -23,6 +25,18 @@ function switchProfileCase( state = initialState, action){
       profile: action.payload,
       loading: false
     }
+    case GET_PROFILES:
+     return {
+       ...state,
+       profiles: action.payload,
+       loading: false
+     }
+    case GET_REPOS:
+      return {
+        ...state,
+        repos: action.payload,
+        loading: false
+      } 
     case PROFILE_ERROR:
     return {
       ...state,

@@ -7,6 +7,7 @@ const {check, validationResult} = require('express-validator');
 
 const User = require('../../modoles/User');
 const Profile = require('../../modoles/Profile');
+const Post = require('../../modoles/Post');
 
 /* ---------- POST API -------- */
 
@@ -84,11 +85,12 @@ router.post('/',
     newProfile = new Profile(profileFields);
     await newProfile.save();
 
-    return res.send(newProfile);
+    return res.json(newProfile);
 
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error ...');
+    res.status(500)
+    .send('Server Error ...');
   }
     // res.send('Hello');
 });
@@ -106,14 +108,16 @@ router.get('/me', auth, async function(req, res){
     .populate('user', ['name', 'avatar']);
     
     if(!profile){
-      return res.status(400).json({ msg: 'There is no profile for this user ...'});
+      return res.status(400)
+      .json({ msg: 'There is no profile for this user ...'});
     }
 
     return res.json(profile);
     
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error ...');
+    return res.status(500)
+    .send('Server Error ...');
   }
 
   // res.send('Profile Route');
@@ -131,7 +135,8 @@ router.get('/', async function(req, res){
     return res.send(allProfiles);
     
   } catch (err) {
-    console.error(500).send('Server Error ...');
+    console.error(500)
+    .send('Server Error ...');
   }
 });
 
@@ -144,18 +149,21 @@ router.get('/user/:user_id', async function(req, res){
   const paramsUseId = req.params.user_id
   try {
     const profile = await Profile.findOne({ user: paramsUseId}).populate('user', ['name', 'avatar']);
-
-    res.send(profile);
-
     if(!profile){
-      return res.status(400).json({ msg: 'Profile not found'});
+      return res.status(400)
+    .json({ msg: 'Profile not found'});
     }
+
+    return res.json(profile);
+
   } catch (err) {
     console.error(err.message);
     if(err.kind == 'ObjectId'){
-      return res.status(400).json({ msg: 'Profile not found'});
+    return res.status(400)
+    .json({ msg: 'Profile not found'});
     }
-    res.status(500),send('Server Error');
+    return res.status(500)
+    ,send('Server Error');
   }
 });
 
@@ -174,17 +182,19 @@ router.get('/github/:username', function(req, res){
 
     request(option, function(error, response, body){
       if(error){
-        console.error(error.message);
+        return console.error(error.message);
       }
       if(response.statusCode !== 200){
-        return res.status(404).json({ msg: 'No Github profile found'});
+        return res.status(404)
+      .json({ msg: 'No Github profile found'});
       }
 
         return res.json(JSON.parse(body));
     });
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error ...');
+    return res.status(500)
+    .send('Server Error ...');
   }
 });
 
@@ -210,7 +220,8 @@ router.put('/experience'
 ]], async function(req, res){
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-      return res.status(400).json({ errors: errors.array()});
+      return res.status(400)
+      .json({ errors: errors.array()});
     }
 
     const {title, company, location, from, to, current, description} = req.body;
@@ -227,7 +238,8 @@ router.put('/experience'
       
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send('Server Error ...');
+      return res.status(500)
+      .send('Server Error ...');
     }
 });
 
@@ -252,7 +264,8 @@ router.put('/education'
 ]], async function(req, res){
   const errors = validationResult(req);
   if(!errors.isEmpty()){
-    return res.status(400).json({ errors: errors.array()});
+    return res.status(400)
+    .json({ errors: errors.array()});
   }
 
   const{school, degree, fieldofstudy, from, to, current, description} = req.body;
@@ -268,7 +281,8 @@ router.put('/education'
     
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error ...');
+    return res.status(500)
+    .send('Server Error ...');
   }
 });
 
@@ -279,7 +293,9 @@ router.put('/education'
 // @access   Private
 router.delete('/', auth, async function(req, res){
   try {
-    //@todo - remove user post
+
+    //Remove user post
+    await Post.deleteMany({ user: req.user.id});
 
     //Remove Profile
     await Profile.findOneAndRemove({ user: req.user.id});
@@ -287,10 +303,12 @@ router.delete('/', auth, async function(req, res){
     //Remove User
     await User.findOneAndRemove({ _id: req.user.id});
 
-    return res.json({ msg: 'User Deleted successfully ...'});    
+    return res.json({ msg: 'User Deleted successfully ...'});   
+
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error ...');
+    res.status(500)
+    .send('Server Error ...');
   }
 });
 
@@ -308,11 +326,12 @@ router.delete('/experience/:exp_id', auth, async function(req, res){
     profile.experience.splice(removeIndex, 1);
     await profile.save();
 
-    return res.json({msg: 'Delete experience succeccfully ...'});
+    return res.json(profile);
 
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error...');
+    return res.status(500)
+    .send('Server Error...');
   }
 });
 
@@ -330,11 +349,12 @@ router.delete('/education/:edu_id', auth, async function(req, res){
     profile.education.splice(removeIndex, 1);
     await profile.save();
 
-    return res.json({ msg: 'Delete education successfully ...'});
+    return res.json(profile);
     
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error ...');
+    return res.status(500)
+    .send('Server Error ...');
   }
 });
 

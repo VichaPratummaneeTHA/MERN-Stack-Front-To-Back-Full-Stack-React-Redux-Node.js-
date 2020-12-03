@@ -44,7 +44,9 @@ router.post('/',
     
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('server Error ...');
+    return res.status(500)
+    .json({ msg: 'Server Error ...'});
+
   }
 
 });
@@ -89,7 +91,8 @@ router.post(
       
     } catch (err) {
       console.error(err.message);
-      return res.status(500).json({ msg: 'Server Error ...'});
+      return res.status(500)
+      .json({ msg: 'Server Error ...'});
     }
     
   }
@@ -108,7 +111,9 @@ router.get('/', async function(req, res){
 
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('server Error ...');
+    return res.status(500)
+    .json({ msg: 'Server Error ...'});
+
   }
 });
 
@@ -120,7 +125,8 @@ router.get('/:id', auth, async function(req, res){
     const post = await Post.findById(req.params.id);
 
     if(!post){
-      return res.status(404).json({ msg: 'Post not found'});
+      return res.status(404)
+      .json({ msg: 'Post not found'});
     }
     
     return res.json(post);
@@ -128,9 +134,11 @@ router.get('/:id', auth, async function(req, res){
   } catch (err) {
     console.error(err.message);
     if(err.kind === 'ObjectId'){
-      return res.status(404).json({ msg: 'Post not found'});
+      return res.status(404)
+    .json({ msg: 'Post not found'});
     }
-    return res.status(500).send('server Error ...');
+      return res.status(500)
+    .send('server Error ...');
   }
 });
 
@@ -148,8 +156,13 @@ router.put('/like/:id', auth, async function(req, res){
     // Check if the already liked by the user
 
     if(post.likes.filter(like => like.user.toString() === req.user.id).length > 0){
-      return res.status(400).json({ msg: 'Post Already liked by the user '});
+
+      return res.status(400)
+      .json({ msg: 'Post Already liked by the user '});
     }
+
+    //console.error(error);
+    //return res.status(500).json({ msg: "Server error" });
 
     post.likes.unshift({ user: req.user.id });
     await post.save();
@@ -157,8 +170,9 @@ router.put('/like/:id', auth, async function(req, res){
     return res.json(post.likes);
     
   } catch (err) {
-      console.error(err.message);
-      return res.status(500).json({msg: 'Server Error ...' });
+      console.error(err.msg);
+      return res.status(500)
+      .json({ msg: 'Post has not been liked by this user yet ...'})
   }
 });
 
@@ -172,8 +186,12 @@ router.put('/unlike/:id', auth, async function(req, res){
       const post = await Post.findById(req.params.id);
       
       // Check if the post still not liked by the user then cannot unlike
+
       if(post.likes.filter(like => like.user.toString() === req.user.id).length === 0){
-        return res.status(400).json({ msg: 'Post has not been liked by this user yet ...'});
+        
+        return res.status(400)
+        .json({ msg: 'Post has not been unliked by this user yet ... '});
+       
       }
       
       // Get Remove index 
@@ -186,8 +204,10 @@ router.put('/unlike/:id', auth, async function(req, res){
       return res.json(post.likes);
       
     } catch (err) {
+
       console.error(err.msg);
-      return res.status(500).json({ msg: 'Server Error ...'});
+      return res.status(500)
+      .json({ msg: 'Post has not been unliked by this user yet ...'})
     }
 });
 
@@ -203,12 +223,14 @@ router.delete('/:id', auth, async function(req, res){
     const post = await Post.findById(req.params.id);
 
     if(!post){
-      return res.status(404).json({ msg: 'Post not found'});
+      return res.status(404)
+      .json({ msg: 'Post not found'});
     }
 
     // Check User match
     if(post.user.toString() !== req.user.id){
-      return res.status(401).json({ msg: 'User not authorized'});
+      return res.status(401)
+      .json({ msg: 'User not authorized'});
     }
 
     await post.remove();
@@ -218,9 +240,11 @@ router.delete('/:id', auth, async function(req, res){
   } catch (err) {
     console.error(err.message);
     if(err.kind === 'ObjectId'){
-      return res.status(404).json({ msg: 'Post not found'});
+      return res.status(404)
+      .json({ msg: 'Post not found'});
     }
-    return res.status(500).send('Server Error');
+    return res.status(500)
+      .send('Server Error');
   }
 });
 
@@ -240,12 +264,14 @@ router.delete(
 
       // Make sure comment exist
       if(!comment){
-        return res.status(404).json({ msg: 'Not Found the comment not exist ...'});
+        return res.status(404)
+        .json({ msg: 'Not Found the comment not exist ...'});
       }
 
       // Check owner user that create the post 
       if(comment.user.toString() !== req.user.id){
-        return res.status(401).json({ msg: 'This User not authorized delete comment ...'});
+        return res.status(401)
+        .json({ msg: 'This User not authorized delete comment ...'});
       }
 
       // it everything okay 
@@ -263,7 +289,8 @@ router.delete(
 
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send('Server Error ...');
+      return res.status(500)
+      .send('Server Error ...');
     }
   }
 );
