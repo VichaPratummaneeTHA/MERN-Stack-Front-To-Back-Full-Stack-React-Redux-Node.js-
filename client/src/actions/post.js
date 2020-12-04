@@ -2,7 +2,11 @@ import axios from 'axios';
 import {
   GET_POSTS,
   POST_ERROR,
-  UPDATE_LIKES
+  UPDATE_LIKES,
+  DELETE_POST,
+  ADD_POST,
+  GET_SINGLE_POST,
+  PROFILE_ERROR
 } from './types';
 
 import { setAlert } from './alert';
@@ -33,6 +37,60 @@ export const getPosts =() => async dispatch => {
   }
 }
 
+// GET Sigle Post
+
+export const getSinglePost = id => async dispatch => {
+  try {
+
+    const res = await axios.get(`/api/posts/${id}`);
+
+    dispatch({
+      type: GET_SINGLE_POST,
+      payload: res.data
+    });
+    
+  } catch (err) {
+    
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        msg: err.respones
+      }
+    });
+  }
+}
+
+// Add Post
+export const addPost = formData => async dispatch => {
+
+  const config = {
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }
+
+  try {
+
+    const res = await axios.post('/api/posts', formData, config);
+
+    dispatch({
+      type: ADD_POST,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Post Add successfully', 'success'));
+    
+  } catch (err) {
+
+    dispatch({
+      type: POST_ERROR,
+      payload:{
+        msg: err.respones
+      }
+    });
+  }
+}
+
 // Add Like 
 
 export const addLike = id => async dispatch => {
@@ -54,7 +112,7 @@ export const addLike = id => async dispatch => {
       type: POST_ERROR,
       payload: {
         msg: err.respones
-        //,status: err.respones.status
+        //status: err.respones.status
       }
     });
   }
@@ -82,6 +140,31 @@ export const removeLike = id => async dispatch => {
       payload: {
         msg: err.respones
         //,status: err.respones.status
+      }
+    });
+  }
+}
+
+// Delete Post
+
+export const deletePost = id => async dispatch => {
+
+  try {
+
+    await axios.delete(`/api/posts/${id}`);
+
+    dispatch({
+      type: DELETE_POST,
+      payload: id
+    });
+
+    dispatch(setAlert('Post Delete Successfully ...', 'success'));
+    
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        msg: err.respones
       }
     });
   }

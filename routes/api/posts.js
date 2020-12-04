@@ -157,8 +157,11 @@ router.put('/like/:id', auth, async function(req, res){
 
     if(post.likes.filter(like => like.user.toString() === req.user.id).length > 0){
 
-      return res.status(400)
-      .json({ msg: 'Post Already liked by the user '});
+      return res
+      .status(400)
+      .json({ 
+        msg: 'Post Already liked by the user' 
+      });
     }
 
     //console.error(error);
@@ -171,7 +174,8 @@ router.put('/like/:id', auth, async function(req, res){
     
   } catch (err) {
       console.error(err.msg);
-      return res.status(500)
+      return res
+      .status(500)
       .json({ msg: 'Post has not been liked by this user yet ...'})
   }
 });
@@ -235,7 +239,7 @@ router.delete('/:id', auth, async function(req, res){
 
     await post.remove();
 
-    return res.json({ msg: 'Delete Post Successfully ...'});
+    return res.json(post);
     
   } catch (err) {
     console.error(err.message);

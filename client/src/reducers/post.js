@@ -1,7 +1,10 @@
 import {
   GET_POSTS,
   POST_ERROR,
-  UPDATE_LIKES
+  UPDATE_LIKES,
+  DELETE_POST,
+  ADD_POST,
+  GET_SINGLE_POST
 } from '../actions/types'
 
 const inittialState = {
@@ -19,6 +22,24 @@ function switchPostCase( state = inittialState, action){
         ...state,
         posts: action.payload,
         loading: false
+      };
+    case GET_SINGLE_POST:
+      return {
+        ...state,
+        post: action.payload,
+        loading: false
+      }
+     case ADD_POST:
+       return {
+         ...state,
+         posts: [...state.posts, action.payload],
+         loading: false
+       } 
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(post => post._id !== action.payload),
+        loadind: false
       };
     case POST_ERROR:
       return {
