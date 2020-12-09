@@ -9,9 +9,11 @@ const Navbar = ( props ) => {
   const authLink = (
     <ul>
         <li>
-          <Link to='/profiles'>
-            Developers
-          </Link>
+          <Link to='/dashboard'>
+          <i className='fas fa-user'/>
+          {' '}
+          <span className='hide-sm'>Dashboard</span>
+        </Link>
         </li>
         <li>
           <Link to='/posts'>
@@ -19,11 +21,9 @@ const Navbar = ( props ) => {
           </Link>
         </li>
         <li>
-          <Link to='/dashboard'>
-          <i className='fas fa-user'/>
-          {' '}
-          <span className='hide-sm'>Dashboard</span>
-        </Link>
+          <Link to='/profiles'>
+            Developers
+          </Link>
         </li>
         <li>
         <a 

@@ -252,7 +252,7 @@ router.delete('/:id', auth, async function(req, res){
   }
 });
 
-// @route    DELETE api/posts/comment/:id/:comment_id
+// @route    DELETE /api/posts/comment/:id/:comment_id
 // @desc     DELETE comment 
 // @access   Private
 

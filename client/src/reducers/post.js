@@ -4,7 +4,9 @@ import {
   UPDATE_LIKES,
   DELETE_POST,
   ADD_POST,
-  GET_SINGLE_POST
+  GET_SINGLE_POST,
+  ADD_COMMENT,
+  REMOVE_COMMENT
 } from '../actions/types'
 
 const inittialState = {
@@ -60,6 +62,24 @@ function switchPostCase( state = inittialState, action){
           ),
         loading: false  
       }
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: action.payload
+        },
+        loading: false
+      };
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: state.post.comments.filter(comment => comment._id !== action.payload)
+        },
+        loading: false
+      };
     default:
       return state;
   }

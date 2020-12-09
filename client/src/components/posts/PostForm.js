@@ -11,23 +11,6 @@ const PostForm = ({
 
   const [text, setText] = useState('');
 
-  // function handleOnChange(event){
-  //   const {name, value} = event.target;
-
-  //   setText(text => {
-  //     return {
-  //       ...text,
-  //       [name]: value
-  //     }
-  //   });
-  // }
-
-  // function handleOnSubmit(event){
-  //   event.preventDefault();
-  //   addPost(text);
-  //   setText('');
-  // }
-
   return (
      <div className="post-form">
         <div className="bg-primary p">

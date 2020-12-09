@@ -87,7 +87,7 @@ const Profile = ({
                   ?(<Fragment>
                       <ProfileGithub userName = {profile.githubusername}/>
                     </Fragment>)
-                  :(<h4>No Github Stored .... </h4>)
+                  :<h4>No Github Stored .... </h4>
                 }
            
               </div>
