@@ -15,27 +15,30 @@ const Navbar = ( props ) => {
           <span className='hide-sm'>Dashboard</span>
         </Link>
         </li>
+
         <li>
           <Link to='/posts'>
             Posts
           </Link>
         </li>
+
         <li>
           <Link to='/profiles'>
             Developers
           </Link>
         </li>
+
         <li>
-        <a 
+        <Link 
         onClick= { props.logout }
-        href='#!'
+        to='/'
         >
        
         <i className='fas fa-sign-out-alt'/>
         {' '}
         <span className='hide-sm'>Logout</span>
       
-        </a>
+        </Link>
         </li>     
       </ul>
   );

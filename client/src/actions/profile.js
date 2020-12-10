@@ -43,7 +43,7 @@ export const getCurrentProfile = () => async dispatch => {
 
 export const getAllProfiles = () => async dispatch => {
 
-    dispatch({ type: CLEAR_PROFILE });
+    // dispatch({ type: CLEAR_PROFILE });
 
   try {
 
@@ -59,8 +59,8 @@ export const getAllProfiles = () => async dispatch => {
     dispatch({
       type: PROFILE_ERROR,
       payload: {
-        msg: err.response.statusText,
-        status: err.response.status
+        msg: err.response
+       
       }
     });
   }
@@ -83,8 +83,8 @@ export const getProfileById = userId => async dispatch => {
     dispatch({
       type: PROFILE_ERROR,
       payload: {
-        msg: err.response.statusText,
-        status: err.response.status
+        msg: err.response
+        
       }
     });
   }
@@ -107,8 +107,8 @@ export const getRepos = userName => async dispatch => {
     dispatch({
       type: PROFILE_ERROR,
       payload: {
-        msg: err.response.statusText,
-        status: err.response.status
+        msg: err.response
+       
       }
     });
   }

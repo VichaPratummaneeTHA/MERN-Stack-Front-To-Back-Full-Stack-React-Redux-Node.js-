@@ -83,11 +83,11 @@ const Profile = ({
                     <i className="fab fa-github"></i> Github Repos
                 </h2>
                 {
-                  profile.githubusername.length > 0
-                  ?(<Fragment>
+                  profile.githubusername.length > 0 || profile.githubusername !== null
+                  ? (<Fragment>
                       <ProfileGithub userName = {profile.githubusername}/>
                     </Fragment>)
-                  :<h4>No Github Stored .... </h4>
+                  : (<h4>No Github Stored .... </h4>)
                 }
            
               </div>

@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Spinner } from '../layout/Spinner';
+// Redux
+import { connect } from 'react-redux';
 import { getAllProfiles } from '../../actions/profile'
 import ProfileItem from './ProfileItem'
 
@@ -15,9 +16,9 @@ const Profiles = ({
   useEffect(
     ()=> {
       getAllProfiles();
-    },[getAllProfiles])//eslint-disable-line react-hooks/exhaustive-deps
+    },[])//eslint-disable-line react-hooks/exhaustive-deps
 
-  return (
+  return ( 
     <Fragment>
       {
         loading
@@ -28,9 +29,7 @@ const Profiles = ({
             <i className="fab fa-connectdevelop"> Browse and connect with developers</i>
           </p>
           <div className="profiles">
-            {
-              profiles.length > 0
-              ? (
+            { profiles.length > 0 ? (
                 profiles.map(profile => (
                   <ProfileItem 
                     key={profile._id}

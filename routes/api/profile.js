@@ -130,12 +130,14 @@ router.get('/me', auth, async function(req, res){
 
 router.get('/', async function(req, res){
   try {
-    const allProfiles = await Profile.find().populate('user', ['name', 'avatar']);
+    const allProfiles = await Profile.find({}).populate('user', ['name', 'avatar']);
 
-    return res.send(allProfiles);
+    console.log(allProfiles)
+    return res.json(allProfiles);
     
   } catch (err) {
-    console.error(500)
+    console.error(err.message);
+    return res.status(500)
     .send('Server Error ...');
   }
 });
