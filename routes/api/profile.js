@@ -132,7 +132,7 @@ router.get('/', async function(req, res){
   try {
     const allProfiles = await Profile.find({}).populate('user', ['name', 'avatar']);
 
-    console.log(allProfiles)
+    // console.log(allProfiles)
     return res.json(allProfiles);
     
   } catch (err) {
