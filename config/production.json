@@ -1,0 +1,7 @@
+{
+  "mongoURI": "mongodb+srv://vicha123:vicha123@cluster0.skebw.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "mysecrettoken",
+  "githubClientId": "89773",
+  "githubSecret": "Iv1.de459340accdf12d"
+  }
+  
